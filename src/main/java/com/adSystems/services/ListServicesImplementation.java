@@ -14,12 +14,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.adSystems.util.Mapper.mapToDeleteListingResponse;
-import static com.adSystems.util.Mapper.mapToUpdateListingResponse;
+import static com.adSystems.util.Mapper.*;
 import static com.adSystems.validation.Validations.validateCreateListing;
 
 
@@ -28,6 +28,8 @@ import static com.adSystems.validation.Validations.validateCreateListing;
 public class ListServicesImplementation implements ListingServices{
     @Autowired
     private ListingRepository listingRepository;
+    @Autowired
+    private ImageService imageService;
 
     @Override
     public ListingResponse createListing(ListingRequests request) {
@@ -36,6 +38,20 @@ public class ListServicesImplementation implements ListingServices{
         listingRepository.save(listing);
         return Mapper.mapToCreateListingResponse();
     }
+
+    @Override
+    public ListingResponse addImage(String listingId, String token, MultipartFile file) {
+        Listing listing = listingRepository.findByIdAndEditToken(listingId, token).orElseThrow(() -> new ValidationException("Invalid token"));
+        String imageUrl = imageService.uploadImage(listingId, file);
+
+        listing.getImages().add(imageUrl);
+        listingRepository.save(listing);
+
+        return mapToCreateListingResponse();
+    }
+
+
+
 
     @Override
     public Listing getById(String id) {

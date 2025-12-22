@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/listings")
@@ -21,6 +22,15 @@ public class ListingControllers {
     public ResponseEntity<?> createAnAd(@RequestBody ListingRequests request){
         try {
             return new ResponseEntity<>(new APiResponse(true, listingServices.createListing(request)),HttpStatus.CREATED);
+        }catch (ClassifiedAdSystemException error){
+            return new ResponseEntity<>(new APiResponse(false, error.getMessage()),HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/{id}/addImages")
+    public ResponseEntity<?> addImage(@PathVariable("id") String id, @RequestParam("token") String token, @RequestParam("file") MultipartFile file){
+        try {
+            return new ResponseEntity<>(new APiResponse(true, listingServices.addImage(id, token, file)), HttpStatus.OK);
         }catch (ClassifiedAdSystemException error){
             return new ResponseEntity<>(new APiResponse(false, error.getMessage()),HttpStatus.BAD_REQUEST);
         }
