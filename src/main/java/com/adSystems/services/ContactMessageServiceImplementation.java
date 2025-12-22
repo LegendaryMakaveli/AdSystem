@@ -4,6 +4,7 @@ import com.adSystems.datas.models.ContactMessage;
 import com.adSystems.datas.models.Listing;
 import com.adSystems.datas.repositories.ContactMessageRepository;
 import com.adSystems.datas.repositories.ListingRepository;
+import com.adSystems.dtos.reponses.ContactMessageResponse;
 import com.adSystems.dtos.requests.ContactMessageRequest;
 import com.adSystems.exception.ListingNotFoundException;
 import com.adSystems.mail.MailService;
@@ -24,7 +25,7 @@ public class ContactMessageServiceImplementation implements ContactMessageServic
     private MailService mailService;
 
     @Override
-    public void saveContactMessage(String listingId, ContactMessageRequest request) {
+    public ContactMessageResponse sendContactMessage(String listingId, ContactMessageRequest request) {
         Listing listing = listingRepository.findById(listingId).orElseThrow(() -> new ListingNotFoundException("Listing not found!"));
 
         ContactMessage message = Mapper.mapToContactSeller(request);
@@ -35,6 +36,8 @@ public class ContactMessageServiceImplementation implements ContactMessageServic
         String body = "You have received a new message from " + request.getEmail() + "\n\n" + request.getMessage();
 
         mailService.sendMail(listing.getEmail(), subject, body);
+
+        return Mapper.mapToSendMessageResponse();
     }
 
 }

@@ -12,6 +12,7 @@ import com.adSystems.exception.ValidationException;
 import com.adSystems.util.Mapper;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -77,6 +78,7 @@ public class ListServicesImplementation implements ListingServices{
     }
 
     @Override
+    @Scheduled(fixedDelay = 24 * 60 * 60 * 1000)
     public void expireListing() {
         List<Listing> BoundToExpired = listingRepository.findByExpiresAtBeforeAndStatus(LocalDateTime.now(), ListingStatus.ACTIVE);
 

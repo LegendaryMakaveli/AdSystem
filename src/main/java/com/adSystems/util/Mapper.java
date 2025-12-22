@@ -7,6 +7,7 @@ import com.adSystems.dtos.reponses.ListingResponse;
 import com.adSystems.dtos.reponses.UpdateListingResponse;
 import com.adSystems.dtos.requests.ContactMessageRequest;
 import com.adSystems.dtos.requests.ListingRequests;
+import com.adSystems.dtos.reponses.ContactMessageResponse;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -60,6 +61,14 @@ public class Mapper {
 
         return message;
 
+    }
+
+    public static ContactMessageResponse mapToSendMessageResponse(){
+        ContactMessageResponse response = new ContactMessageResponse();
+        response.setMessage("Message sent successfully");
+        response.setDate(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now()));
+
+        return response;
     }
 
 }
