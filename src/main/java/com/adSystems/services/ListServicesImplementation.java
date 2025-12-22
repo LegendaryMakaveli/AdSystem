@@ -5,7 +5,6 @@ import com.adSystems.datas.models.ListingStatus;
 import com.adSystems.datas.repositories.ListingRepository;
 import com.adSystems.dtos.reponses.ListingResponse;
 import com.adSystems.dtos.reponses.UpdateListingResponse;
-import com.adSystems.dtos.requests.GetByCityAndCategoryRequest;
 import com.adSystems.dtos.requests.ListingRequests;
 import com.adSystems.dtos.requests.UpdateListingRequest;
 import com.adSystems.exception.ListingNotFoundException;
@@ -50,10 +49,10 @@ public class ListServicesImplementation implements ListingServices{
     }
 
     @Override
-    public List<Listing> getByCityAndCategory(GetByCityAndCategoryRequest request) {
-        if(request.getCityId() == null || request.getCityId().trim().isEmpty()) throw new ValidationException("City id cannot be empty");
-        if(request.getCategoryId() == null || request.getCategoryId().trim().isEmpty()) throw new ValidationException("Category id cannot be empty");
-        return listingRepository.findByCityIdAndCategoryIdAndSatausOrderByCreatedAtDesc(request.getCityId(), request.getCategoryId(), ListingStatus.ACTIVE);
+    public List<Listing> getByCityAndCategory(String cityId, String categoryId) {
+        if(cityId == null || cityId.trim().isEmpty()) throw new ValidationException("City id cannot be empty");
+        if(categoryId == null || categoryId.trim().isEmpty()) throw new ValidationException("Category id cannot be empty");
+        return listingRepository.findByCityIdAndCategoryIdAndSatausOrderByCreatedAtDesc(cityId, categoryId, ListingStatus.ACTIVE);
     }
 
     @Override
