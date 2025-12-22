@@ -13,7 +13,7 @@ public interface ListingServices {
     ListingResponse createListing(ListingRequests request);
     Listing getById(String id);
     List<Listing> getByCity(String cityId);
-    List<Listing> getByCityAndCategory(GetByCityAndCategoryRequest request);
+    List<Listing> getByCityAndCategory(String cityId, String categoryId);
     UpdateListingResponse updateListing(String id, String token, UpdateListingRequest request);
     ListingResponse deleteListing(String id, String token);
     void expireListing();
