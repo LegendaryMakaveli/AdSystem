@@ -3,6 +3,7 @@ package com.adSystems.util;
 import com.adSystems.datas.models.Listing;
 import com.adSystems.datas.models.ListingStatus;
 import com.adSystems.dtos.reponses.ListingResponse;
+import com.adSystems.dtos.reponses.UpdateListingResponse;
 import com.adSystems.dtos.requests.ListingRequests;
 
 import java.time.LocalDateTime;
@@ -28,6 +29,20 @@ public class Mapper {
     public static ListingResponse mapToCreateListingResponse(){
         ListingResponse response = new ListingResponse();
         response.setMesage("Listing created successfully");
+
+        return response;
+    }
+
+    public static UpdateListingResponse mapToUpdateListingResponse(){
+        UpdateListingResponse response = new UpdateListingResponse();
+        response.setMessage("Listing updated successfully");
+
+        return response;
+    }
+
+    public static ListingResponse mapToDeleteListingResponse(){
+        ListingResponse response = new ListingResponse();
+        response.setMesage("Listing deleted successfully");
 
         return response;
     }
