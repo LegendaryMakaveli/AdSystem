@@ -1,12 +1,15 @@
 package com.adSystems.util;
 
+import com.adSystems.datas.models.ContactMessage;
 import com.adSystems.datas.models.Listing;
 import com.adSystems.datas.models.ListingStatus;
 import com.adSystems.dtos.reponses.ListingResponse;
 import com.adSystems.dtos.reponses.UpdateListingResponse;
+import com.adSystems.dtos.requests.ContactMessageRequest;
 import com.adSystems.dtos.requests.ListingRequests;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Mapper {
 
@@ -45,6 +48,18 @@ public class Mapper {
         response.setMesage("Listing deleted successfully");
 
         return response;
+    }
+
+    public static ContactMessage mapToContactSeller(ContactMessageRequest request){
+        ContactMessage message = new ContactMessage();
+        message.setSenderEmail(request.getEmail());
+        message.setMessage(request.getMessage());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedDate = LocalDateTime.now().format(formatter);
+        message.setSendAt(LocalDateTime.parse(formattedDate));
+
+        return message;
+
     }
 
 }
