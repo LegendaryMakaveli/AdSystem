@@ -1,4 +1,7 @@
 package com.adSystems.services;
 
-public interface ContactService {
+import com.adSystems.dtos.requests.ContactMessageRequest;
+
+public interface ContactMessageService {
+    void saveContactMessage(String listingId, ContactMessageRequest request);
 }
