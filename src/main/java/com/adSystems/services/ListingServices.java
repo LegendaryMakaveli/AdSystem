@@ -1,6 +1,7 @@
 package com.adSystems.services;
 
 import com.adSystems.datas.models.Listing;
+import com.adSystems.datas.models.User;
 import com.adSystems.dtos.reponses.ListingResponse;
 import com.adSystems.dtos.reponses.UpdateListingResponse;
 import com.adSystems.dtos.requests.GetByCityAndCategoryRequest;

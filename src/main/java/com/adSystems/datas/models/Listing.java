@@ -27,6 +27,7 @@ import java.util.List;
 public class Listing {
     @Id
     private String id;
+    private String userId;
     private String title;
     private String description;
     private double price;

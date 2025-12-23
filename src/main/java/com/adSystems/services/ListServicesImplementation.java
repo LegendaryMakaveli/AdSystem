@@ -2,12 +2,17 @@ package com.adSystems.services;
 
 import com.adSystems.datas.models.Listing;
 import com.adSystems.datas.models.ListingStatus;
+import com.adSystems.datas.models.SubscriptionPlan;
+import com.adSystems.datas.models.User;
 import com.adSystems.datas.repositories.ListingRepository;
+import com.adSystems.datas.repositories.UserRepository;
 import com.adSystems.dtos.reponses.ListingResponse;
 import com.adSystems.dtos.reponses.UpdateListingResponse;
 import com.adSystems.dtos.requests.ListingRequests;
 import com.adSystems.dtos.requests.UpdateListingRequest;
+import com.adSystems.exception.ListingLimitExceededException;
 import com.adSystems.exception.ListingNotFoundException;
+import com.adSystems.exception.UserNotFoundException;
 import com.adSystems.exception.ValidationException;
 import com.adSystems.util.Mapper;
 import lombok.AllArgsConstructor;
@@ -30,12 +35,21 @@ public class ListServicesImplementation implements ListingServices{
     private ListingRepository listingRepository;
     @Autowired
     private ImageService imageService;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public ListingResponse createListing(ListingRequests request) {
         validateCreateListing(request);
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UserNotFoundException("User not found"));
+        if(user.getSubscriptionPlan() == SubscriptionPlan.FREE && user.getListingCount() >= 3) throw new ListingLimitExceededException("Upgrade to premium to post more listing");
         Listing listing = Mapper.mapToCreateAListing(request);
+        listing.setUserId(user.getId());
         listingRepository.save(listing);
+
+        user.setListingCount(user.getListingCount() + 1);
+        userRepository.save(user);
+
         return Mapper.mapToCreateListingResponse();
     }
 
@@ -46,7 +60,6 @@ public class ListServicesImplementation implements ListingServices{
 
         listing.getImages().add(imageUrl);
         listingRepository.save(listing);
-
         return mapToCreateListingResponse();
     }
 

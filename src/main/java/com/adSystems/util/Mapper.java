@@ -3,11 +3,11 @@ package com.adSystems.util;
 import com.adSystems.datas.models.ContactMessage;
 import com.adSystems.datas.models.Listing;
 import com.adSystems.datas.models.ListingStatus;
-import com.adSystems.dtos.reponses.ListingResponse;
-import com.adSystems.dtos.reponses.UpdateListingResponse;
+import com.adSystems.datas.models.User;
+import com.adSystems.dtos.reponses.*;
 import com.adSystems.dtos.requests.ContactMessageRequest;
 import com.adSystems.dtos.requests.ListingRequests;
-import com.adSystems.dtos.reponses.ContactMessageResponse;
+import com.adSystems.dtos.requests.RegisterUserRequest;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -67,6 +67,36 @@ public class Mapper {
         ContactMessageResponse response = new ContactMessageResponse();
         response.setMessage("Message sent successfully");
         response.setDate(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now()));
+
+        return response;
+    }
+
+    public static User mapToRegisterUserRequest(RegisterUserRequest request){
+        User newUser = new User();
+        newUser.setFirstName(request.getFirstName());
+        newUser.setLastName(request.getLastName());
+        newUser.setAddress(request.getAddress());
+        newUser.setEmail(request.getEmail());
+
+        return newUser;
+    }
+
+    public static RegisterUserResponse mapToRegisterUserResponse(User user){
+        RegisterUserResponse response = new RegisterUserResponse();
+        response.setFirstName(user.getFirstName());
+        response.setLastName(user.getLastName());
+        response.setAddress(user.getAddress());
+        response.setEmail(user.getEmail());
+        response.setMessage("Account created successfully");
+        response.setDateOfRegistration(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now()));
+
+        return response;
+    }
+
+    public static LoginUserResponse mapToLoginUserResponse(String token){
+        LoginUserResponse response = new LoginUserResponse();
+        response.setToken(token);
+        response.setMessage("Login Successful!");
 
         return response;
     }
