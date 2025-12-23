@@ -117,4 +117,15 @@ public class ListServicesImplementation implements ListingServices{
         }
     }
 
+    @Scheduled(cron = "0 0 * * * *")
+    public void downgradeExpiredSubscriptions() {
+
+        List<User> expiredUsers = userRepository.findBySubscriptionPlanAndSubscriptionExpiredAt(SubscriptionPlan.PREMIUM, LocalDateTime.now());
+        for (User user : expiredUsers) {
+            user.setSubscriptionPlan(SubscriptionPlan.FREE);
+            user.setSubscriptionExpiresAt(null);
+            userRepository.save(user);
+        }
+    }
+
 }

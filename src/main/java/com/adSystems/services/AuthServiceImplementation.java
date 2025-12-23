@@ -15,11 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static com.adSystems.util.Mapper.*;
+import static com.adSystems.validation.Validations.signUpValidation;
 
 
 @AllArgsConstructor
 @Service
-public class AuthServiceImplemetation implements AuthService{
+public class AuthServiceImplementation implements AuthService{
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -28,7 +29,8 @@ public class AuthServiceImplemetation implements AuthService{
 
     @Override
     public RegisterUserResponse register(RegisterUserRequest request) {
-        userRepository.findByEmail(request.getEmail()).ifPresent(user -> {throw new UserALreadyExistException("User already exixt!");});
+        signUpValidation(request);
+        userRepository.findByEmail(request.getEmail()).ifPresent(user -> {throw new UserALreadyExistException("User already exist!");});
         User user = mapToRegisterUserRequest(request);
         user.setPassword(PasswordHash.hash(request.getPassword()));
 
@@ -36,8 +38,11 @@ public class AuthServiceImplemetation implements AuthService{
         return mapToRegisterUserResponse(savedUser);
     }
 
+
     @Override
     public LoginUserResponse login(LoginUserRequest request) {
+        if(request.getEmail() == null || request.getEmail().trim().isEmpty())throw new ValidationException("Email cannot be empty");
+        if(request.getPassword() == null || request.getPassword().trim().isEmpty())throw new ValidationException("Password cannot be empty");
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new ValidationException("Invalid Credentials"));
         if(!PasswordHash.checkPassword(request.getPassword(), user.getPassword())) throw new ValidationException("Invalid Credentials");
         String token = jwtService.generateLoginToken(user);

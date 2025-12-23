@@ -16,8 +16,9 @@ public class User {
     private String address;
     private String email;
     private String password;
-    private Role role = Role.USER;
-    private SubscriptionPlan subscriptionPlan = SubscriptionPlan.FREE;
+    private Role role;
+    private SubscriptionPlan subscriptionPlan;
+    private LocalDateTime subscriptionExpiresAt;
     private int listingCount;
     private LocalDateTime createdAt;
 }

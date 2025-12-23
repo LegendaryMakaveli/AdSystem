@@ -1,9 +1,6 @@
 package com.adSystems.util;
 
-import com.adSystems.datas.models.ContactMessage;
-import com.adSystems.datas.models.Listing;
-import com.adSystems.datas.models.ListingStatus;
-import com.adSystems.datas.models.User;
+import com.adSystems.datas.models.*;
 import com.adSystems.dtos.reponses.*;
 import com.adSystems.dtos.requests.ContactMessageRequest;
 import com.adSystems.dtos.requests.ListingRequests;
@@ -77,6 +74,8 @@ public class Mapper {
         newUser.setLastName(request.getLastName());
         newUser.setAddress(request.getAddress());
         newUser.setEmail(request.getEmail());
+        newUser.setRole(Role.USER);
+        newUser.setSubscriptionPlan(SubscriptionPlan.FREE);
 
         return newUser;
     }
