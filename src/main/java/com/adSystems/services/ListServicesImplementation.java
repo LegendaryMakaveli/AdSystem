@@ -82,7 +82,7 @@ public class ListServicesImplementation implements ListingServices{
     public List<Listing> getByCityAndCategory(String cityId, String categoryId) {
         if(cityId == null || cityId.trim().isEmpty()) throw new ValidationException("City id cannot be empty");
         if(categoryId == null || categoryId.trim().isEmpty()) throw new ValidationException("Category id cannot be empty");
-        return listingRepository.findByCityIdAndCategoryIdAndSatausOrderByCreatedAtDesc(cityId, categoryId, ListingStatus.ACTIVE);
+        return listingRepository.findByCityIdAndCategoryIdAndStatusOrderByCreatedAtDesc(cityId, categoryId, ListingStatus.ACTIVE);
     }
 
     @Override
@@ -120,7 +120,7 @@ public class ListServicesImplementation implements ListingServices{
     @Scheduled(cron = "0 0 * * * *")
     public void downgradeExpiredSubscriptions() {
 
-        List<User> expiredUsers = userRepository.findBySubscriptionPlanAndSubscriptionExpiredAt(SubscriptionPlan.PREMIUM, LocalDateTime.now());
+        List<User> expiredUsers = userRepository.findBySubscriptionPlanAndSubscriptionExpiresAt(SubscriptionPlan.PREMIUM, LocalDateTime.now());
         for (User user : expiredUsers) {
             user.setSubscriptionPlan(SubscriptionPlan.FREE);
             user.setSubscriptionExpiresAt(null);

@@ -17,11 +17,9 @@ public class Mapper {
         listing.setDescription(request.getDescription());
         listing.setPrice(request.getPrice());
         listing.setEmail(request.getEmail());
-        listing.setCityId(request.getCityId());
-        listing.setCategoryId(request.getCategoryId());
         listing.setStatus(ListingStatus.ACTIVE);
         listing.setEditToken(Token.generate());
-        listing.setCreatedAt(LocalDateTime.now());
+        listing.setCreatedAt(DateTimeFormatter.ofPattern("yyy-MM-dd HH:mm ss").format(LocalDateTime.now()));
         listing.setExpiresAt(LocalDateTime.now().plusDays(5));
 
         return listing;

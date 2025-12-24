@@ -45,9 +45,9 @@ public class AuthServiceImplementation implements AuthService{
         if(request.getPassword() == null || request.getPassword().trim().isEmpty())throw new ValidationException("Password cannot be empty");
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new ValidationException("Invalid Credentials"));
         if(!PasswordHash.checkPassword(request.getPassword(), user.getPassword())) throw new ValidationException("Invalid Credentials");
-        String token = jwtService.generateLoginToken(user);
+        String loginToken = jwtService.generateLoginToken(user);
 
-        LoginUserResponse response = mapToLoginUserResponse(token);
+        LoginUserResponse response = mapToLoginUserResponse(loginToken);
 
         return response;
     }

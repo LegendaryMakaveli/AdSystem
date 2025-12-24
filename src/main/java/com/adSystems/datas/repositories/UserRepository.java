@@ -14,5 +14,5 @@ import java.util.Optional;
 public interface UserRepository extends MongoRepository<@NonNull User, @NonNull String> {
     Optional<User> findByEmail(String email);
     boolean existsByEmail(@NonNull String email);
-    List<User> findBySubscriptionPlanAndSubscriptionExpiredAt(SubscriptionPlan plan, LocalDateTime date);
+    List<User> findBySubscriptionPlanAndSubscriptionExpiresAt(SubscriptionPlan plan, LocalDateTime date);
 }

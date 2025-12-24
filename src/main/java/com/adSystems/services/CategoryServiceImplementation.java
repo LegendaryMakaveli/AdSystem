@@ -18,7 +18,7 @@ public class CategoryServiceImplementation implements CategoryService{
 
     @Override
     public List<Category> getRootCategories() {
-        return categoryRepository.findParentIdIsNull();
+        return categoryRepository.findByParentIdIsNull();
     }
 
     @Override

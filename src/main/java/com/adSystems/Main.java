@@ -14,11 +14,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-public class Main { static void main(String[] args) {SpringApplication.run(Main.class, args);}
+public class Main { public static void main(String[] args) {SpringApplication.run(Main.class, args);}
 
     @Bean
     CommandLineRunner createAdmin(UserRepository repo) {
-        return _ -> {
+        return makaveli -> {
             if (!repo.existsByEmail("briankachelhoffer698@gmail.com")) {
                 User admin = new User();
                 admin.setFirstName("Brian");

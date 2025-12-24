@@ -38,7 +38,7 @@ public class Listing {
     private ListingStatus status;
     @Indexed
     private String editToken;
-    private LocalDateTime createdAt;
+    private String createdAt;
     @Indexed
     private LocalDateTime expiresAt;
 }
