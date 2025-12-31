@@ -17,4 +17,5 @@ public interface ListingRepository extends MongoRepository<@NonNull Listing, @No
     List<Listing> findByCityIdAndCategoryIdAndStatusOrderByCreatedAtDesc(String cityId, String categoryId, ListingStatus status);
     Optional<Listing> findByIdAndEditToken(String id, String editToken);
     List<Listing> findByExpiresAtBeforeAndStatus(LocalDateTime time, ListingStatus status);
+    List<Listing> findByUserId(String userId);
 }

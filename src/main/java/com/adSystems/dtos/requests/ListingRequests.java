@@ -6,9 +6,13 @@ import lombok.Data;
 
 @Data
 public class ListingRequests {
+    private String id;
     private String title;
     private String description;
     private double price;
-    private String email;
+    private String category;
+    private String location;
+    private String contactEmail;
+    private String contactPhone;
     private ListingStatus status;
 }

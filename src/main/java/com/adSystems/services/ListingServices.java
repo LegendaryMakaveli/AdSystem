@@ -13,11 +13,13 @@ import java.util.List;
 
 public interface ListingServices {
     ListingResponse createListing(ListingRequests request);
-    ListingResponse addImage(String listingId, String token, MultipartFile file);
+    boolean addImage(String listingId, String token, MultipartFile file);
     Listing getById(String id);
     List<Listing> getByCity(String cityId);
     List<Listing> getByCityAndCategory(String cityId, String categoryId);
     UpdateListingResponse updateListing(String id, String token, UpdateListingRequest request);
     ListingResponse deleteListing(String id, String token);
+    List<Listing> getAllListings();
     void expireListing();
+
 }

@@ -36,6 +36,15 @@ public class ListingControllers {
         }
     }
 
+    @GetMapping("/getAll")
+    public ResponseEntity<?> getAllListing(){
+        try{
+            return new ResponseEntity<>(new APiResponse(true, listingServices.getAllListings()), HttpStatus.OK);
+        }catch (ClassifiedAdSystemException error){
+            return new ResponseEntity<>(new APiResponse(false,error.getMessage()),HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> findAnAdById(@PathVariable("id") String id){
         try {

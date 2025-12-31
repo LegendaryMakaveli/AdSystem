@@ -30,6 +30,9 @@ public class Listing {
     private String userId;
     private String title;
     private String description;
+    private String phone;
+    private String category;
+    private String location;
     private double price;
     private String email;
     private String cityId;

@@ -16,7 +16,10 @@ public class Mapper {
         listing.setTitle(request.getTitle());
         listing.setDescription(request.getDescription());
         listing.setPrice(request.getPrice());
-        listing.setEmail(request.getEmail());
+        listing.setCategory(request.getCategory());
+        listing.setLocation(request.getLocation());
+        listing.setEmail(request.getContactEmail());
+        listing.setPhone(request.getContactPhone());
         listing.setStatus(ListingStatus.ACTIVE);
         listing.setEditToken(Token.generate());
         listing.setCreatedAt(DateTimeFormatter.ofPattern("yyy-MM-dd HH:mm ss").format(LocalDateTime.now()));
@@ -25,9 +28,13 @@ public class Mapper {
         return listing;
     }
 
-    public static ListingResponse mapToCreateListingResponse(){
+    public static ListingResponse mapToCreateListingResponse(User user, Listing listing){
         ListingResponse response = new ListingResponse();
-        response.setMesage("Listing created successfully");
+        response.setListingId(listing.getId());
+        response.setMessage("Listing created successfully");
+        response.setEditToken(listing.getEditToken());
+        response.setUserId(user.getId());
+        response.setCreatedAt(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm ss").format(LocalDateTime.now()));
 
         return response;
     }
@@ -41,7 +48,7 @@ public class Mapper {
 
     public static ListingResponse mapToDeleteListingResponse(){
         ListingResponse response = new ListingResponse();
-        response.setMesage("Listing deleted successfully");
+        response.setMessage("Listing deleted successfully");
 
         return response;
     }
@@ -80,6 +87,7 @@ public class Mapper {
 
     public static RegisterUserResponse mapToRegisterUserResponse(User user){
         RegisterUserResponse response = new RegisterUserResponse();
+        response.setUserId(user.getId());
         response.setFirstName(user.getFirstName());
         response.setLastName(user.getLastName());
         response.setAddress(user.getAddress());
@@ -90,12 +98,5 @@ public class Mapper {
         return response;
     }
 
-    public static LoginUserResponse mapToLoginUserResponse(String token){
-        LoginUserResponse response = new LoginUserResponse();
-        response.setToken(token);
-        response.setMessage("Login Successful!");
-
-        return response;
-    }
 
 }

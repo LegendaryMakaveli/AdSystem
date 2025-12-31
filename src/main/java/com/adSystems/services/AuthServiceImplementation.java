@@ -47,8 +47,12 @@ public class AuthServiceImplementation implements AuthService{
         if(!PasswordHash.checkPassword(request.getPassword(), user.getPassword())) throw new ValidationException("Invalid Credentials");
         String loginToken = jwtService.generateLoginToken(user);
 
-        LoginUserResponse response = mapToLoginUserResponse(loginToken);
-
-        return response;
+        return LoginUserResponse.builder()
+                .token(loginToken)
+                .message("Login successful")
+                .role(user.getRole().name())
+                .userId(user.getId())
+                .email(user.getEmail())
+                .build();
     }
 }

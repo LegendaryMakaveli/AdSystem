@@ -41,30 +41,27 @@ public class ListServicesImplementation implements ListingServices{
     @Override
     public ListingResponse createListing(ListingRequests request) {
         validateCreateListing(request);
-        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UserNotFoundException("User not found"));
+        User user = userRepository.findByEmail(request.getContactEmail()).orElseThrow(() -> new UserNotFoundException("User not found"));
         if(user.getSubscriptionPlan() == SubscriptionPlan.FREE && user.getListingCount() >= 3) throw new ListingLimitExceededException("Upgrade to premium to post more listing");
         Listing listing = Mapper.mapToCreateAListing(request);
         listing.setUserId(user.getId());
-        listingRepository.save(listing);
+        Listing savedListing = listingRepository.save(listing);
 
         user.setListingCount(user.getListingCount() + 1);
         userRepository.save(user);
 
-        return Mapper.mapToCreateListingResponse();
+        return Mapper.mapToCreateListingResponse(user, savedListing);
     }
 
     @Override
-    public ListingResponse addImage(String listingId, String token, MultipartFile file) {
+    public boolean addImage(String listingId, String token, MultipartFile file) {
         Listing listing = listingRepository.findByIdAndEditToken(listingId, token).orElseThrow(() -> new ValidationException("Invalid token"));
         String imageUrl = imageService.uploadImage(listingId, file);
 
         listing.getImages().add(imageUrl);
         listingRepository.save(listing);
-        return mapToCreateListingResponse();
+        return true;
     }
-
-
-
 
     @Override
     public Listing getById(String id) {
@@ -89,11 +86,11 @@ public class ListServicesImplementation implements ListingServices{
     public UpdateListingResponse updateListing(String id, String token, UpdateListingRequest request) {
         Listing listing = listingRepository.findByIdAndEditToken(id, token).orElseThrow(() -> new ListingNotFoundException("Listing not found!"));
         listing.setTitle(request.getTitle());
+        listing.setCategory(request.getCategory());
         listing.setDescription(request.getDescription());
         listing.setPrice(request.getPrice());
 
         listingRepository.save(listing);
-
         return mapToUpdateListingResponse();
     }
 
@@ -101,9 +98,16 @@ public class ListServicesImplementation implements ListingServices{
     public ListingResponse deleteListing(String id, String token) {
         Listing listing = listingRepository.findByIdAndEditToken(id, token).orElseThrow(() -> new ListingNotFoundException("Listing not found!"));
         listing.setStatus(ListingStatus.DELETED);
+        User user = userRepository.findById(listing.getUserId()).orElseThrow(() -> new UserNotFoundException("User not found"));
+        user.setListingCount(user.getListingCount() - 1);
         listingRepository.save(listing);
 
         return mapToDeleteListingResponse();
+    }
+
+    @Override
+    public List<Listing> getAllListings() {
+        return listingRepository.findAll();
     }
 
     @Override

@@ -17,6 +17,7 @@ public class User {
     private String email;
     private String password;
     private Role role;
+    private UserStatus status = UserStatus.ACTIVE;
     private SubscriptionPlan subscriptionPlan;
     private LocalDateTime subscriptionExpiresAt;
     private int listingCount;
