@@ -51,7 +51,22 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(Arrays.asList(allowedOrigins.split(",")));
+
+        System.out.println("====================================");
+        System.out.println("🔵 Raw allowedOrigins: '" + allowedOrigins + "'");
+        System.out.println("🔵 Length: " + allowedOrigins.length());
+
+        String[] originsArray = allowedOrigins.split(",");
+        System.out.println("🔵 Split count: " + originsArray.length);
+        for (int i = 0; i < originsArray.length; i++) {
+            System.out.println("🔵 Origin[" + i + "]: '" + originsArray[i].trim() + "'");
+        }
+
+        List<String> origins = Arrays.asList(allowedOrigins.split(","));
+        config.setAllowedOrigins(origins);
+
+        System.out.println("🔵 Final configured origins: " + config.getAllowedOrigins());
+        System.out.println("====================================");
 
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
