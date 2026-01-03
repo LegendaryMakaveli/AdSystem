@@ -58,25 +58,7 @@ public class ListingControllers {
         }
     }
 
-    @CrossOrigin(origins = "https://ad-system-front-end.vercel.app")
-    @GetMapping("/city/{cityId}")
-    public ResponseEntity<?> findAnAdByCity(@PathVariable("cityId") String cityId){
-        try {
-            return new ResponseEntity<>(new APiResponse(true, listingServices.getByCity(cityId)),HttpStatus.OK);
-        }catch (ClassifiedAdSystemException error){
-            return new ResponseEntity<>(new APiResponse(false, error.getMessage()),HttpStatus.BAD_REQUEST);
-        }
-    }
 
-    @CrossOrigin(origins = "https://ad-system-front-end.vercel.app")
-    @GetMapping("/city/{cityId}/category/{categoryId}")
-    public ResponseEntity<?> findByCityAndCategory(@PathVariable("cityId")String cityId, @PathVariable("categoryId")String categoryId){
-        try{
-            return new ResponseEntity<>(new APiResponse(true, listingServices.getByCityAndCategory(cityId, categoryId)),HttpStatus.OK);
-        }catch (ClassifiedAdSystemException error){
-            return new ResponseEntity<>(new APiResponse(false, error.getMessage()),HttpStatus.BAD_REQUEST);
-        }
-    }
 
     @CrossOrigin(origins = "https://ad-system-front-end.vercel.app")
     @PutMapping("/update/{id}")
