@@ -2,7 +2,6 @@ package com.adSystems.util;
 
 import com.adSystems.datas.models.*;
 import com.adSystems.dtos.reponses.*;
-import com.adSystems.dtos.requests.ContactMessageRequest;
 import com.adSystems.dtos.requests.ListingRequests;
 import com.adSystems.dtos.requests.RegisterUserRequest;
 
@@ -49,26 +48,6 @@ public class Mapper {
     public static ListingResponse mapToDeleteListingResponse(){
         ListingResponse response = new ListingResponse();
         response.setMessage("Listing deleted successfully");
-
-        return response;
-    }
-
-    public static ContactMessage mapToContactSeller(ContactMessageRequest request){
-        ContactMessage message = new ContactMessage();
-        message.setSenderEmail(request.getEmail());
-        message.setMessage(request.getMessage());
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formattedDate = LocalDateTime.now().format(formatter);
-        message.setSendAt(LocalDateTime.parse(formattedDate));
-
-        return message;
-
-    }
-
-    public static ContactMessageResponse mapToSendMessageResponse(){
-        ContactMessageResponse response = new ContactMessageResponse();
-        response.setMessage("Message sent successfully");
-        response.setDate(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now()));
 
         return response;
     }

@@ -69,18 +69,6 @@ public class ListServicesImplementation implements ListingServices{
        return listingRepository.findById(id).filter(listing -> listing.getStatus() == ListingStatus.ACTIVE).orElseThrow(() -> new ListingNotFoundException("Listing not found!"));
     }
 
-    @Override
-    public List<Listing> getByCity(String cityId) {
-        if(cityId == null || cityId.trim().isEmpty()) throw new ValidationException("City id cannot be empty");
-        return listingRepository.findByCityIdAndStatusOrderByCreatedAtDesc(cityId, ListingStatus.ACTIVE);
-    }
-
-    @Override
-    public List<Listing> getByCityAndCategory(String cityId, String categoryId) {
-        if(cityId == null || cityId.trim().isEmpty()) throw new ValidationException("City id cannot be empty");
-        if(categoryId == null || categoryId.trim().isEmpty()) throw new ValidationException("Category id cannot be empty");
-        return listingRepository.findByCityIdAndCategoryIdAndStatusOrderByCreatedAtDesc(cityId, categoryId, ListingStatus.ACTIVE);
-    }
 
     @Override
     public UpdateListingResponse updateListing(String id, String token, UpdateListingRequest request) {
