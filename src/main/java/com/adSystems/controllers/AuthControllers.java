@@ -16,7 +16,6 @@ public class AuthControllers {
     @Autowired
     private AuthService authService;
 
-    @CrossOrigin(origins = "https://ad-system-front-end.vercel.app")
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody RegisterUserRequest request){
         try {
@@ -26,7 +25,6 @@ public class AuthControllers {
         }
     }
 
-    @CrossOrigin(origins = "https://ad-system-front-end.vercel.app")
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginUserRequest request){
         try {

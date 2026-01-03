@@ -1,5 +1,6 @@
 package com.adSystems.config;
 
+import com.adSystems.exception.ClassifiedAdSystemException;
 import com.adSystems.security.JwtAuthFilter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +20,7 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfig {
     private final JwtAuthFilter jwtAuthFilter;
+
     @Value("${cors.allowed.origins}")
     private String allowedOrigins;
 
@@ -27,8 +29,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http)throws Exception{
-
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws ClassifiedAdSystemException {
         http
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
@@ -38,7 +39,7 @@ public class SecurityConfig {
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/listings/**").permitAll()
                         .requestMatchers("/categories/**").permitAll()
-                        .requestMatchers("/admin").permitAll()
+                        .requestMatchers("/admin/**").permitAll()
                         .requestMatchers("/cities/**").permitAll()
                         .requestMatchers("/contact/**").permitAll()
                         .anyRequest().authenticated()
@@ -51,21 +52,24 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        System.out.print("ALLOWED ORIGIN:" + " " + allowedOrigins);
-        config.setAllowedOrigins(Arrays.asList(allowedOrigins.split(",")));
 
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(List.of("*"));
+        System.out.println("ALLOWED ORIGINS: " + allowedOrigins);
+
+        List<String> origins = Arrays.asList(allowedOrigins.split(","));
+        config.setAllowedOrigins(origins);
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+        config.setAllowedHeaders(Arrays.asList("*"));
         config.setAllowCredentials(true);
-        config.setMaxAge(3600L);
+        config.setExposedHeaders(Arrays.asList("Authorization", "Content-Type"));
 
+        config.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
+
         return source;
     }
-
-
+}
 
 
 
@@ -76,4 +80,4 @@ public class SecurityConfig {
 //            AuthenticationConfiguration config) throws Exception {
 //        return config.getAuthenticationManager();
 //    }
-}
+
