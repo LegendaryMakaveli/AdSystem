@@ -18,6 +18,7 @@ public class ListingControllers {
     private ListingServices listingServices;
 
 
+    @CrossOrigin(origins = "https://ad-system-front-end.vercel.app")
     @PostMapping("/create")
     public ResponseEntity<?> createAnAd(@RequestBody ListingRequests request){
         try {
@@ -27,6 +28,7 @@ public class ListingControllers {
         }
     }
 
+    @CrossOrigin(origins = "https://ad-system-front-end.vercel.app")
     @PostMapping("/{id}/addImages")
     public ResponseEntity<?> addImage(@PathVariable("id") String id, @RequestParam("token") String token, @RequestParam("file") MultipartFile file){
         try {
@@ -36,6 +38,7 @@ public class ListingControllers {
         }
     }
 
+    @CrossOrigin(origins = "https://ad-system-front-end.vercel.app")
     @GetMapping("/getAll")
     public ResponseEntity<?> getAllListing(){
         try{
@@ -45,6 +48,7 @@ public class ListingControllers {
         }
     }
 
+    @CrossOrigin(origins = "https://ad-system-front-end.vercel.app")
     @GetMapping("/{id}")
     public ResponseEntity<?> findAnAdById(@PathVariable("id") String id){
         try {
@@ -54,6 +58,7 @@ public class ListingControllers {
         }
     }
 
+    @CrossOrigin(origins = "https://ad-system-front-end.vercel.app")
     @GetMapping("/city/{cityId}")
     public ResponseEntity<?> findAnAdByCity(@PathVariable("cityId") String cityId){
         try {
@@ -63,6 +68,7 @@ public class ListingControllers {
         }
     }
 
+    @CrossOrigin(origins = "https://ad-system-front-end.vercel.app")
     @GetMapping("/city/{cityId}/category/{categoryId}")
     public ResponseEntity<?> findByCityAndCategory(@PathVariable("cityId")String cityId, @PathVariable("categoryId")String categoryId){
         try{
@@ -72,6 +78,7 @@ public class ListingControllers {
         }
     }
 
+    @CrossOrigin(origins = "https://ad-system-front-end.vercel.app")
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateListing(@PathVariable("id")String id, @RequestParam("token")String token, @RequestBody UpdateListingRequest request ){
         try{
@@ -81,6 +88,7 @@ public class ListingControllers {
         }
     }
 
+    @CrossOrigin(origins = "https://ad-system-front-end.vercel.app")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteListing(@PathVariable("id")String id, @RequestParam("token")String token){
         try{

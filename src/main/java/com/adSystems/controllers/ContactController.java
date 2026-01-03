@@ -17,6 +17,7 @@ public class ContactController {
     private ContactMessageService contactMessageService;
 
 
+    @CrossOrigin(origins = "https://ad-system-front-end.vercel.app")
     @PostMapping("/contactSeller/{listingId}")
     public ResponseEntity<?> contacrSeller(@PathVariable String listingId, @RequestBody ContactMessageRequest request) {
         try{

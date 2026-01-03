@@ -8,10 +8,7 @@ import com.adSystems.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -19,6 +16,7 @@ public class AuthControllers {
     @Autowired
     private AuthService authService;
 
+    @CrossOrigin(origins = "https://ad-system-front-end.vercel.app")
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody RegisterUserRequest request){
         try {
@@ -28,6 +26,7 @@ public class AuthControllers {
         }
     }
 
+    @CrossOrigin(origins = "https://ad-system-front-end.vercel.app")
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginUserRequest request){
         try {

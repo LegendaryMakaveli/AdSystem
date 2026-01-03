@@ -21,6 +21,7 @@ public class AdminController {
         this.adminService = adminService;
     }
 
+    @CrossOrigin(origins = "https://ad-system-front-end.vercel.app")
     @PostMapping("/users/{id}/upgrade")
     public ResponseEntity<?> upgradeUser(@PathVariable("id") String userId){
         try {
@@ -30,6 +31,7 @@ public class AdminController {
         }
     }
 
+    @CrossOrigin(origins = "https://ad-system-front-end.vercel.app")
     @PostMapping("/users/{id}/downgrade")
     public ResponseEntity<?> downgradeUser(@PathVariable("id") String userId){
         try{
@@ -39,6 +41,8 @@ public class AdminController {
         }
     }
 
+
+    @CrossOrigin(origins = "https://ad-system-front-end.vercel.app")
     @GetMapping("/getAllUser")
     public ResponseEntity<?> getAllUsers(){
         try{
@@ -48,6 +52,7 @@ public class AdminController {
         }
     }
 
+    @CrossOrigin(origins = "https://ad-system-front-end.vercel.app")
     @GetMapping("/getUser/{id}")
     public ResponseEntity<?> getUserById(@PathVariable("id") String userId){
         try{
@@ -57,6 +62,7 @@ public class AdminController {
         }
     }
 
+    @CrossOrigin(origins = "https://ad-system-front-end.vercel.app")
     @PostMapping("/delete/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable("id") String userId){
         try{
@@ -66,6 +72,7 @@ public class AdminController {
         }
     }
 
+    @CrossOrigin(origins = "https://ad-system-front-end.vercel.app")
     @GetMapping("/getAllListing")
     public ResponseEntity<?> getAllListings(){
         try{
@@ -75,6 +82,7 @@ public class AdminController {
         }
     }
 
+    @CrossOrigin(origins = "https://ad-system-front-end.vercel.app")
     @PostMapping("/deleteListing/{id}")
     public ResponseEntity<?> deleteListing(@PathVariable("id") String listingId){
         try{
@@ -84,6 +92,7 @@ public class AdminController {
         }
     }
 
+    @CrossOrigin(origins = "https://ad-system-front-end.vercel.app")
     @GetMapping("getListingByUserId/{id}")
     public ResponseEntity<?> getListingByUserId(@PathVariable("id") String userId){
         try{
