@@ -5,6 +5,7 @@ import com.adSystems.datas.repositories.UserRepository;
 import com.adSystems.dtos.reponses.LoginUserResponse;
 import com.adSystems.dtos.reponses.RegisterUserResponse;
 import com.adSystems.dtos.requests.LoginUserRequest;
+import com.adSystems.dtos.requests.PasswordResetRequest;
 import com.adSystems.dtos.requests.RegisterUserRequest;
 import com.adSystems.exception.UserALreadyExistException;
 import com.adSystems.exception.ValidationException;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import static com.adSystems.util.Mapper.*;
 import static com.adSystems.validation.Validations.signUpValidation;
+import static com.adSystems.validation.Validations.validateResetPassword;
 
 
 @AllArgsConstructor
@@ -54,5 +56,16 @@ public class AuthServiceImplementation implements AuthService{
                 .userId(user.getId())
                 .email(user.getEmail())
                 .build();
+    }
+
+    @Override
+    public String resetPassword(PasswordResetRequest request) {
+        validateResetPassword(request);
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new ValidationException("User not found        "));
+        user.setPassword(PasswordHash.hash(request.getNewPassword()));
+
+        userRepository.save(user);
+
+        return "Password reset successful";
     }
 }

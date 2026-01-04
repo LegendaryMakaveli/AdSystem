@@ -2,6 +2,7 @@ package com.adSystems.controllers;
 
 import com.adSystems.dtos.reponses.APiResponse;
 import com.adSystems.dtos.requests.LoginUserRequest;
+import com.adSystems.dtos.requests.PasswordResetRequest;
 import com.adSystems.dtos.requests.RegisterUserRequest;
 import com.adSystems.exception.ClassifiedAdSystemException;
 import com.adSystems.services.AuthService;
@@ -29,6 +30,15 @@ public class AuthControllers {
     public ResponseEntity<?> login(@RequestBody LoginUserRequest request){
         try {
             return new ResponseEntity<>(new APiResponse(true, authService.login(request)), HttpStatus.OK);
+        }catch (ClassifiedAdSystemException error){
+            return new ResponseEntity<>(new APiResponse(false, error.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/resetPassword")
+    public ResponseEntity<?> resetPassword(@RequestBody PasswordResetRequest request){
+        try{
+            return new ResponseEntity<>(new APiResponse(true, authService.resetPassword(request)), HttpStatus.OK);
         }catch (ClassifiedAdSystemException error){
             return new ResponseEntity<>(new APiResponse(false, error.getMessage()), HttpStatus.BAD_REQUEST);
         }

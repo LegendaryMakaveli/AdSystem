@@ -1,6 +1,7 @@
 package com.adSystems.validation;
 
 import com.adSystems.dtos.requests.ListingRequests;
+import com.adSystems.dtos.requests.PasswordResetRequest;
 import com.adSystems.dtos.requests.RegisterUserRequest;
 import com.adSystems.exception.ValidateListingException;
 import com.adSystems.exception.ValidationException;
@@ -27,5 +28,12 @@ public class Validations {
         String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,15}$";
         if(!request.getPassword().matches(passwordPattern))throw new ValidationException("Incorrect password!");
         if(request.getPassword() == null || request.getPassword().trim().isEmpty())throw new ValidationException("Password cannot be empty");
+    }
+
+    public static void validateResetPassword(PasswordResetRequest request) {
+        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,15}$";
+        if(!request.getNewPassword().matches(passwordPattern))throw new ValidationException("Invalid password format");
+        if(request.getEmail() == null || request.getEmail().trim().isEmpty())throw new ValidationException("Email cannot be empty");
+        if(request.getNewPassword() == null || request.getNewPassword().trim().isEmpty())throw new ValidationException("New password cannot be empty");
     }
 }
