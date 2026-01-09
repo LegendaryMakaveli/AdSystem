@@ -14,16 +14,6 @@ import java.util.List;
 @Data
 @Document(collection = "Listings")
 
-@CompoundIndexes({
-        @CompoundIndex(
-                name = "city_status_createdAt_idx",
-                def = "{'cityId': 1, 'status': 1, 'createdAt': -1}"
-        ),
-        @CompoundIndex(
-                name = "city_category_status_createdAt_idx",
-                def = "{'cityId': 1, 'categoryId': 1, 'status': 1, 'createdAt': -1}"
-        )
-})
 public class Listing {
     @Id
     private String id;
@@ -35,8 +25,6 @@ public class Listing {
     private String location;
     private double price;
     private String email;
-    private String cityId;
-    private String categoryId;
     private List<String> images = new ArrayList<>();
     private ListingStatus status;
     @Indexed
