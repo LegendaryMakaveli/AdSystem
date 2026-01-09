@@ -25,6 +25,8 @@ public class Listing {
     private String location;
     private double price;
     private String email;
+    private String cityId;
+    private String categoryId;
     private List<String> images = new ArrayList<>();
     private ListingStatus status;
     @Indexed
