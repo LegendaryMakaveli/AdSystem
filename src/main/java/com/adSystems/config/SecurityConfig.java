@@ -38,11 +38,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/listings/**").permitAll()
-                        .requestMatchers("/categories/**").permitAll()
                         .requestMatchers("/admin/**").permitAll()
-                        .requestMatchers("/cities/**").permitAll()
-                        .requestMatchers("/contact/**").permitAll()
-                        .requestMatchers("/health").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
